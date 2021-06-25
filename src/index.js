@@ -16,6 +16,7 @@ disbut(client);
 
 
 (async () => {
+  
   client.commands = new Map();
   client.events = new Map();
   client.configs = new Map();
