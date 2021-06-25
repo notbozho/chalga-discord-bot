@@ -28,6 +28,8 @@ function getRandomOtherSongFile(lastSong) {
 
 async function joinAndPlayRadio(channel) {
 	// TODO implement joining channel and playing radio
+
+	//
 }
 
 async function skipSong(channel) {
