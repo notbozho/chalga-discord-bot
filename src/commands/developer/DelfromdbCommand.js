@@ -1,5 +1,6 @@
 const BaseCommand = require('../../utils/structures/BaseCommand');
 const GuildConfig = require('../../schemas/GuildConfigSchema');
+const RadioConfig = require('../../schemas/RadioConfigSchema');
 
 module.exports = class DelfromdbCommand extends BaseCommand {
   constructor() {
@@ -14,7 +15,7 @@ module.exports = class DelfromdbCommand extends BaseCommand {
     } else {
 
       try {
-        const RemoveGuild = await GuildConfig.findOneAndDelete({ guildId });
+        const RemoveGuild = await RadioConfig.findOneAndDelete({ guildId });
         message.reply(`Guild - ${message.guild.id} removed from db.`);
       } catch (err) {
         message.reply("there was an error.");

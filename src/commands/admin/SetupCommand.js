@@ -64,9 +64,9 @@ module.exports = class SetupCommand extends BaseCommand {
     const filter = (button) => button.clicker.user.id === message.author.id;
     const collector = await m.createButtonCollector(filter, { time: 90000 })
 
-    //!
-    //! NOT FUN PART
-    //!
+    //-!
+    //-! NOT FUN PART
+    //-!
 
     collector.on('collect', async (b) => {
       if(member.voice.channel) {

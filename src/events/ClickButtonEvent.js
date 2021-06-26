@@ -7,6 +7,6 @@ module.exports = class GuildDeleteEvent extends BaseEvent {
   
   async run(client, button) {
     // await button.defer();
-    console.log("button clicked");
+    console.log(`button ${button.id} clicked in ${button.guild.name}`);
   }
 }

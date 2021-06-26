@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const disbut = require('discord-buttons');
 
 const BaseCommand = require('../../utils/structures/BaseCommand');
 const RadioConfig = require('../../schemas/RadioConfigSchema');
@@ -26,13 +27,31 @@ module.exports = class RadioCommand extends BaseCommand {
         //.setAuthor(client.user.username, client.user.avatarURL())
         .setFooter(message.guild.name, message.guild.iconURL());
 
+      const setupButton = new disbut.MessageButton()
+        .setStyle('red')
+        .setLabel('Конфигурирай!')
+        .setID('goSetup');
+
       if(!findRadioConfig) {
 
-        // FIXME add button bellow
+        const m = await message.channel.send({embed: setupMissingEmbed, component: setupButton});
 
-        message.channel.send(setupMissingEmbed).then(msg => {
-          msg.delete({ timeout: 10000 });
-        }) 
+        const filter = (button) => button.clicker.user.id === message.author.id;
+        const collector = await m.createButtonCollector(filter, { time: 90000 })
+
+        collector.on('collect', async (b) => {
+        
+          m.edit({ embed: setupMissingEmbed, component: setupButton.setDisabled() });
+          m.delete({ timeout: 3000 });
+          
+          //execute b!setup command
+          const command = client.commands.get('setup');
+          command.run(client, message, []);
+
+          await b.defer(); // Tell discord api that the button interaction is successful
+        
+        })
+
 
       } else {
 
