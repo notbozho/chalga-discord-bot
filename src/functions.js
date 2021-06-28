@@ -28,7 +28,7 @@ function getRandomOtherSongFile(lastSong) {
 	return audio;
 }
 
-async function PlaySong(channel) {
+async function PlayRadio(channel) {
 	// TODO implement joining channel and playing radio
 
 	if(channel.type != 'voice') return;
@@ -71,13 +71,17 @@ async function joinAllRadioChannels(client) {
 			    await voiceChannel.join();
             } catch (err) console.error(err);
 
-			console.log(`Joined VoiceChannel in ${guild.name}`)
+			console.log(`Joined Voice Channel in ${guild.name}`)
+
+            try {
+                PlayRadio(voiceChannel);
+                console.log(`Started radio in ${guild.name}`)
+            } catch (err) console.error(err);
 
 			// -FIXME cannot join undefined random error
-			// await delay(1000)
 		}
 
 	}
 }
 
-module.exports = { getRandomSongFile, getRandomOtherSongFile, joinAndPlayRadio, joinAllRadioChannels };
+module.exports = { getRandomSongFile, getRandomOtherSongFile, PlayRadio, joinAllRadioChannels };
