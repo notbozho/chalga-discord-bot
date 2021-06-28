@@ -1,7 +1,9 @@
 const fs = require('fs');
 
+const path = 'E:\\[3] Java Script\\[1] Projects\\radio-bot\\music\\';
+
 function getRandomSongFile() {
-	let files = fs.readdirSync('E:\\[3] Java Script\\[1] Projects\\radio-bot\\music\\');
+	let files = fs.readdirSync(path);
 
 	while (true) {
 		audio = files[Math.floor(Math.random() * files.length)];
@@ -12,7 +14,7 @@ function getRandomSongFile() {
 }
 
 function getRandomOtherSongFile(lastSong) {
-	let files = fs.readdirSync('E:\\[3] Java Script\\[1] Projects\\radio-bot\\music\\');
+	let files = fs.readdirSync(path);
 	let foundSong = lastSong;
 
 
@@ -26,10 +28,26 @@ function getRandomOtherSongFile(lastSong) {
 	return audio;
 }
 
-async function joinAndPlayRadio(channel) {
+async function PlaySong(channel) {
 	// TODO implement joining channel and playing radio
 
-	//
+	if(channel.type != 'voice') return;
+
+
+    const song = await getRandomSongFile();
+    const connection = await message.member.voice.channel.join();
+
+    connection.play(fs.createReadStream(`${path}${song}`));
+
+    dispatcher.on('start', () => {
+	    console.log(`${song} started playing in ${channel.guild.name}`);
+    });
+
+    dispatcher.on('finish', () => {
+        PlaySong(channel);
+    });
+
+
 }
 
 async function skipSong(channel) {
@@ -48,13 +66,12 @@ async function joinAllRadioChannels(client) {
 
 			const voiceChannelId = client.radios.get(guildId).voiceId;
 			const voiceChannel = guild.channels.cache.get(voiceChannelId);
-				
-			// console.log(voiceChannelId);
-			// console.log(voiceChannel);
 
-			await voiceChannel.join();
+            try {
+			    await voiceChannel.join();
+            } catch (err) console.error(err);
 
-			console.log(`Joined vc in ${guild.name}`)
+			console.log(`Joined VoiceChannel in ${guild.name}`)
 
 			// -FIXME cannot join undefined random error
 			// await delay(1000)
