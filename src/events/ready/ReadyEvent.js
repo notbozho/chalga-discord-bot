@@ -1,4 +1,5 @@
 const BaseEvent = require('../../utils/structures/BaseEvent');
+const { autoStatus } = require('../../functions.js');
 
 module.exports = class ReadyEvent extends BaseEvent {
   constructor() {
@@ -10,8 +11,8 @@ module.exports = class ReadyEvent extends BaseEvent {
 
     console.log(`\n${client.user.tag} is online!\n → Guild count: ${servers}\n → User count: ${users}\n`);
 
-    // load status
-    client.user.setActivity('мазна чалга 🎶', { type: 'LISTENING' });
+    // load auto status
+    await autoStatus(client);
 
   }
 }

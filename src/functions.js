@@ -67,16 +67,12 @@ async function joinAllRadioChannels(client) {
 			const voiceChannelId = client.radios.get(guildId).voiceId;
 			const voiceChannel = guild.channels.cache.get(voiceChannelId);
 
-            try {
-			    await voiceChannel.join();
-            } catch (err) console.error(err);
+			await voiceChannel.join();
 
 			console.log(`Joined Voice Channel in ${guild.name}`)
 
-            try {
                 PlayRadio(voiceChannel);
                 console.log(`Started radio in ${guild.name}`)
-            } catch (err) console.error(err);
 
 			// -FIXME cannot join undefined random error
 		}
@@ -84,4 +80,39 @@ async function joinAllRadioChannels(client) {
 	}
 }
 
-module.exports = { getRandomSongFile, getRandomOtherSongFile, PlayRadio, joinAllRadioChannels };
+const statuses = [
+    {
+        status: 'idle', // online, idle, dnd or invisible
+        type: 'PLAYING', // PLAYING, WATCHING, LISTENING, STREAMING, COMPETING
+        text: 'с музика 🎙', // whatever :p
+    },
+    {
+        status: 'online',
+        type: 'LISTENING',
+        text: 'мазна чалга 🎶',
+    },
+    {
+        status: 'online',
+        type: 'WATCHING',
+        text: 'майка ти 😊',
+    },
+]
+
+async function autoStatus(client) {
+    let step = 0;
+
+    setInterval(() => {
+
+        const status = statuses[step].status;
+        const type = statuses[step].type;
+        const text = statuses[step].text;
+
+        client.user.setPresence({activity: {name: text, type: type}, status: status });
+
+        if(step == statuses.length - 1) step = 0;
+        else step++;
+
+    }, 8 * 1000); // every 8 seconds
+}
+
+module.exports = { getRandomSongFile, getRandomOtherSongFile, PlayRadio, joinAllRadioChannels, autoStatus };
