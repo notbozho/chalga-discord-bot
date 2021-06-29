@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.5.3",
+    "chalk": "^4.1.1",
     "discord-buttons": "^3.2.1",
     "discord.js": "^12.5.3",
     "fs": "0.0.1-security",

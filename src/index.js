@@ -1,18 +1,28 @@
+// Imports
 
-const { Client } = require('discord.js');
-const { registerCommands, registerEvents } = require('./utils/registry');
-const config = require('../slappey.json');
-const client = new Client();
+//discord stuff
+const Discord = require('discord.js');
+const allIntents = new Discord.Intents;
+allIntents.add(Discord.Intents.ALL)
+allIntents.remove(['GUILD_MEMBERS', 'GUILD_PRESENCES']);
+const Client = new Discord.Client({ ws: { intents: allIntents } });
+const client = Client;
 const disbut = require('discord-buttons');
+
+const { registerCommands, registerEvents } = require('./utils/registry');
+
+// mongodb stuff
 const mongoose = require('mongoose');
 const GuildConfig = require('./schemas/GuildConfigSchema');
 const RadioConfig = require('./schemas/RadioConfigSchema');
-const { joinAllRadioChannels } = require('./functions');
 
+// misc
+const config = require('../slappey.json');
+const { joinAllRadioChannels } = require('./functions');
 disbut(client);
 
 
-// TODO Multi threading support so bot wont be slow ;o
+// TODO Multi threading support so bot wont be slow (I hope it improves performance... it should, right?) ;o
 
 
 (async () => {
@@ -21,7 +31,7 @@ disbut(client);
   client.events = new Map();
   client.configs = new Map();
   client.radios = new Map();
-  // client.prefix = config.prefix;
+
   await registerCommands(client, '../commands');
   await registerEvents(client, '../events');
   
@@ -74,8 +84,7 @@ disbut(client);
     }
   }
 
-  // TODO start radio once again
-
+  // join channels on load
   setTimeout(async () => {
 
     await joinAllRadioChannels(client);

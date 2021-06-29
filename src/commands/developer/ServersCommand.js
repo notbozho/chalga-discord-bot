@@ -6,13 +6,15 @@ module.exports = class ServersCommand extends BaseCommand {
   }
 
   run(client, message, args) {
+
     if(message.member.id != 339813312625901579) {
-      message.reply("You're not bozho so u cant use this command soz mate");
-    } else {
+        message.reply("You're not bozho so u cant use this command soz mate");
+        return;
+    }
+
       const guilds = client.guilds.cache.array();
       for(const guild of guilds) {
-        message.channel.send(guild.name +  " - " + guild.id);
-      }
+        message.channel.send(`${guild.name} - ${guild.id}`);
     }
   }
 }

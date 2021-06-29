@@ -16,22 +16,25 @@ module.exports = class WoiceStateUpdateEvent extends BaseEvent {
       // console.log(newState);
       if(!newState.serverDeaf) newState.guild.me.voice.setDeaf(true, "Self deaf due performance reasons");
       
-      // TODO update radio config when moved to other channel
-      if(newState.channelID != client.radios.get(guildId).voiceId) {
-        console.log("moved to diff channel instead of configred one")
 
-        console.log(oldState.channelID)
-        console.log(newState.channelID)
+      //!
+      //! commented because it doesnt detect every move and also might have memory leaks
+      //!
 
-        // FIXME memory leak
+      // if(newState.channelID != client.radios.get(guildId).voiceId) {
+      //   console.log("moved to diff channel instead of configred one")
 
-        const updateRadioConfig = await RadioConfig.findOneAndUpdate(guildId, { voiceId: newState.channelID }).then(() => {
-          client.radios.set(guildId, { guildId, voiceId: newState.channelID })
-        })
-        return;
-      } else {
-        return;
-      }
+      //   console.log(oldState.channelID)
+      //   console.log(newState.channelID)
+
+      //   const updateRadioConfig = await RadioConfig.findOneAndUpdate(guildId, { voiceId: newState.channelID }).then(() => {
+      //     client.radios.set(guildId, { guildId, voiceId: newState.channelID })
+      //   })
+      //   return;
+      // } else {
+      //   return;
+      // }
+      
     } else {
       return;
     }

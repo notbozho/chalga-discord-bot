@@ -6,7 +6,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = class SetupCommand extends BaseCommand {
   constructor() {
-    super('setup', 'admin', []);
+    super('setup', 'admin', ['start']);
   }
 
   async run(client, message, args) {
@@ -14,6 +14,7 @@ module.exports = class SetupCommand extends BaseCommand {
     const guildId = guild.id;
     let successful = false;
 
+    // TODO check for MANAGE_GUILD perms
 
     const doneButton = new disbut.MessageButton()
       .setStyle('blurple')
@@ -64,14 +65,12 @@ module.exports = class SetupCommand extends BaseCommand {
     const filter = (button) => button.clicker.user.id === message.author.id;
     const collector = await m.createButtonCollector(filter, { time: 90000 })
 
-    //!
-    //! NOT FUN PART
-    //!
+    //-!
+    //-! NOT FUN PART
+    //-!
 
     collector.on('collect', async (b) => {
       if(member.voice.channel) {
-
-        // TODO save to db
 
         const findRadioConfig = await RadioConfig.findOne({ guildId });
 
@@ -79,7 +78,7 @@ module.exports = class SetupCommand extends BaseCommand {
           try {
 
             const updateRadioConfig = await RadioConfig.findOneAndUpdate({ guildId }, { guildId, voiceId: member.voice.channel.id}).then(() => {
-              client.radios.set({ guildId }, {
+              client.radios.set(guildId, {
                 guildId,
                 voiceId: member.voice.channel.id
               });
@@ -107,6 +106,8 @@ module.exports = class SetupCommand extends BaseCommand {
         }
 
         successful = true;
+
+        member.voice.channel.join();
 
         m.edit({ embed: setupSuccessfulEmbed, component: doneButton.setDisabled() })
           .then(msg => {
