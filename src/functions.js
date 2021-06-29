@@ -1,6 +1,8 @@
 const fs = require('fs');
+const chalk = require('chalk');
 
-const path = 'E:\\[3] Java Script\\[1] Projects\\radio-bot\\music\\';
+const config = require('../slappey.json');
+const { path } = config;
 
 function getRandomSongFile() {
 	let files = fs.readdirSync(path);
@@ -29,29 +31,39 @@ function getRandomOtherSongFile(lastSong) {
 }
 
 async function PlayRadio(channel) {
-	// TODO implement joining channel and playing radio
 
 	if(channel.type != 'voice') return;
 
-
     const song = await getRandomSongFile();
-    const connection = await message.member.voice.channel.join();
+    const guildId = channel.guild.id;
 
-    connection.play(fs.createReadStream(`${path}${song}`));
+    let connection;
+
+    try {
+        connection = await channel.join();
+    } catch (err) { console.error(err); }
+
+    const dispatcher = connection.play(fs.createReadStream(`${path}\\${song}`));
 
     dispatcher.on('start', () => {
-	    console.log(`${song} started playing in ${channel.guild.name}`);
+	    console.log(`${chalk.underline(song)} started playing in ${chalk.inverse(channel.guild.name)}`);
+        channel.client.radios.set(guildId, {
+                guildId,
+                voiceId: channel.id,
+                currentSong: song
+        });
     });
 
     dispatcher.on('finish', () => {
-        PlaySong(channel);
+        PlayRadio(channel);
     });
-
 
 }
 
 async function skipSong(channel) {
-	// TODO implement song skipping in 1 guild only
+    
+    if(channel.type != 'voice') return;
+    else PlayRadio(channel);
 }
 
 async function joinAllRadioChannels(client) {
@@ -67,14 +79,18 @@ async function joinAllRadioChannels(client) {
 			const voiceChannelId = client.radios.get(guildId).voiceId;
 			const voiceChannel = guild.channels.cache.get(voiceChannelId);
 
-			await voiceChannel.join();
-
-			console.log(`Joined Voice Channel in ${guild.name}`)
-
-                PlayRadio(voiceChannel);
-                console.log(`Started radio in ${guild.name}`)
-
-			// -FIXME cannot join undefined random error
+			try {
+                await voiceChannel.join();
+            } catch (err) { console.error(err);
+                setTimeout(async () => {
+                    //sometimes it returns VOICE_CONNECTION_ERROR... not much info on this err
+                    await voiceChannel.join();
+                }, 5 * (60 * 1000));
+            }
+            
+            console.log(`${chalk.red('→')} Joined VC in ${chalk.inverse(guild.name)}`)
+            
+            PlayRadio(voiceChannel);
 		}
 
 	}
@@ -112,7 +128,7 @@ async function autoStatus(client) {
         if(step == statuses.length - 1) step = 0;
         else step++;
 
-    }, 8 * 1000); // every 8 seconds
+    }, 10 * 1000); // every 8 seconds
 }
 
-module.exports = { getRandomSongFile, getRandomOtherSongFile, PlayRadio, joinAllRadioChannels, autoStatus };
+module.exports = { getRandomSongFile, getRandomOtherSongFile, PlayRadio, joinAllRadioChannels, autoStatus, skipSong };

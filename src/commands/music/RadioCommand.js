@@ -9,7 +9,7 @@ const { getRandomSongFile , getRandomOtherSongFile } = require('../../functions'
 
 module.exports = class RadioCommand extends BaseCommand {
   constructor() {
-    super('radio', 'music', []);
+    super('radio', 'music', ['play']);
   }
 
   async run(client, message, args) {

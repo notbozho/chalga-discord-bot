@@ -16,7 +16,6 @@ module.exports = class WoiceStateUpdateEvent extends BaseEvent {
       // console.log(newState);
       if(!newState.serverDeaf) newState.guild.me.voice.setDeaf(true, "Self deaf due performance reasons");
       
-      // TODO update radio config when moved to other channel
 
       //!
       //! commented because it doesnt detect every move and also might have memory leaks

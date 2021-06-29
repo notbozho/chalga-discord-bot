@@ -9,7 +9,6 @@ module.exports = class GuildDeleteEvent extends BaseEvent {
   }
   
   async run(client, guild) {
-    // TODO remove from guild db & radio db when left server
 
     const guildId = guild.id;
 

@@ -8,6 +8,6 @@ module.exports = class TestCommand extends BaseCommand {
   async run(client, message, args) {
     // if (args[1] == 'delete') 
     
-    console.log(client.radios.has(message.guild.id))
+    console.log(client.radios)
   }
 }
