@@ -13,5 +13,6 @@ Default prefix: **b!**
 ## Todo in the future
 
 - Check for permissions before executing setup cmd
+- Suggest cmd for suggesting more songs ofc
 - Fix VOICE_CONNECTION_TIMEOUT error in ./functions.js
 - Multi-threading support for the bot might be or be not so useful idk...
