@@ -1,0 +1,13 @@
+{
+  "name": "discord-radio-bot",
+  "language": "javascript",
+  "manager": "npm",
+  "token": "",
+  "prefix": "b!",
+  "db": "",
+  "path": "D:\\[1] Documents\\[1] Music\\mazno big time",
+  "mainColor": "0BC9CD",
+  "successColor": "4BB543",
+  "warningColor": "FFCC00",
+  "errorColor": "FF0033"
+}
