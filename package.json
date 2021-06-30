@@ -17,7 +17,7 @@
     "discord-buttons": "^3.2.1",
     "discord.js": "^12.5.3",
     "fs": "0.0.1-security",
-    "mongoose": "^5.12.14"
+    "mongoose": "^5.13.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.8"
