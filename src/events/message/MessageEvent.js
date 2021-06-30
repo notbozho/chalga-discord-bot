@@ -23,7 +23,7 @@ module.exports = class MessageEvent extends BaseEvent {
     }
 
     if (message.content.startsWith(prefix)) {
-      const [cmdName, ...cmdArgs] = message.content
+      const [cmdName, ...cmdArgs] = message.content.toLowerCase()
       .slice(prefix.length)
       .trim()
       .split(/\s+/);
@@ -31,7 +31,9 @@ module.exports = class MessageEvent extends BaseEvent {
       const command = client.commands.get(cmdName);
       if (command) {
         command.run(client, message, cmdArgs);
-        message.delete({ timeout: 5000 })
+
+        // removing this because may cause a lot of rate limits
+        // message.delete({ timeout: 5000 })
       }
     }
   }

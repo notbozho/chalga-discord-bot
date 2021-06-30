@@ -12,7 +12,7 @@ Default prefix: **b!**
 
 ## Todo in the future
 
-- Make commands case insentisive
+- ~~Make commands case insentisive~~
 - Check for permissions before executing setup cmd
 - Suggest cmd for suggesting more songs ofc
 - Fix VOICE_CONNECTION_TIMEOUT error in ./functions.js
