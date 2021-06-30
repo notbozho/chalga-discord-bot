@@ -23,12 +23,12 @@ module.exports = class MessageEvent extends BaseEvent {
     }
 
     if (message.content.startsWith(prefix)) {
-      const [cmdName, ...cmdArgs] = message.content.toLowerCase()
+      const [cmdName, ...cmdArgs] = message.content
       .slice(prefix.length)
       .trim()
       .split(/\s+/);
 
-      const command = client.commands.get(cmdName);
+      const command = client.commands.get(cmdName.toLowerCase());
       if (command) {
         command.run(client, message, cmdArgs);
 

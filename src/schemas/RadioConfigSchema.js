@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const config = require('../../slappey.json');
 
 const RadioConfigSchema = new mongoose.Schema({
 	guildId: {
