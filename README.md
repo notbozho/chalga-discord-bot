@@ -14,6 +14,6 @@ Default prefix: **b!**
 
 - ~~Make commands case insentisive~~
 - Check for permissions before executing setup cmd
-- Suggest cmd for suggesting more songs ofc
+- Suggest cmd for suggesting more songs ofc *(working on this one)*
 - Fix VOICE_CONNECTION_TIMEOUT error in ./functions.js
 - Multi-threading support for the bot might be or be not so useful idk...
